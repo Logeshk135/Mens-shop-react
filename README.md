@@ -15,19 +15,7 @@ React Router DOM — For page navigation
 
 Context API / LocalStorage — Manage login state and cart data
 
- Backend
-
-Node.js + Express.js — Server-side logic
-
-MongoDB + Mongoose — User database
-
-JWT Authentication — Secure login/signup
-
-bcrypt.js — Password hashing
-
-Admin Dashboard :
-admin name: logesh
-password :logesh@123
+ 
 
 
  Features
@@ -42,11 +30,5 @@ password :logesh@123
  Admin Dashboard – Manage product overview (frontend only)
  Responsive Design – Works on mobile & desktop
 
- Backend
 
- User Registration (Signup)
- User Login with JWT Authentication
- MongoDB Database Connection
- Password Encryption using bcrypt
-
-SIMPLE PROJECT ONLY FRONTEND  [BACKEND:(LOGIN AND SIGNUP)]
+SIMPLE PROJECT ONLY FRONTEND 

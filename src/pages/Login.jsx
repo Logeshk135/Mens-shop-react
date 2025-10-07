@@ -11,8 +11,8 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const adminUsername = "admin";
-    const adminPassword = "admin123";
+    const adminUsername = "logesh";
+    const adminPassword = "logesh@123";
 
     if (username === adminUsername && password === adminPassword) {
 

@@ -148,6 +148,15 @@ const Navbar = () => {
               </span>
             )}
           </li>
+           <li className="flex items-center space-x-1 hover:text-yellow-400 relative">
+            <FaHeart />
+            <Link to="/wishlist">Wishlist</Link>
+            {wishlistCount > 0 && (
+              <span className="absolute -top-2 -right-3 bg-pink-400 text-black text-xs font-bold px-1 rounded-full">
+                {wishlistCount}
+              </span>
+            )}
+          </li>
 
           {!username ? (
             <>

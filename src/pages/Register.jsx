@@ -72,7 +72,7 @@ export default function Register() {
           required
         />
         <button className="bg-gray-900 text-white py-3 rounded-lg hover:bg-green-500 hover:text-black font-semibold transition-all duration-300">
-          Register
+          Signup
         </button>
         <p className="text-center text-sm mt-4 text-black">
           Already have an account?{" "}

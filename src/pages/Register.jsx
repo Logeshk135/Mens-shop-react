@@ -44,15 +44,15 @@ export default function Register() {
     >
       <form
         onSubmit={handleSubmit}
-        className="bg-transparent bg-opacity-90 p-8 rounded shadow-md w-80 flex flex-col"
+        className="backdrop-blur-md bg-white/20 p-2 rounded-2xl shadow-2xl w-96 flex flex-col border border-white/30"
       >
-        <h2 className="text-2xl font-bold mb-4 text-center">Signup</h2>
+        <h2 className="text-3xl font-bold mb-6 text-center text-black drop-shadow-lg">Signup</h2>
         <input
           type="text"
           placeholder="Username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
-          className="mb-3 border px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-yellow-500"
+          className="mb-4 border border-gray-300 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400"
           required
         />
         <input
@@ -60,7 +60,7 @@ export default function Register() {
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="mb-3 border px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-yellow-500"
+          className="mb-4 border border-gray-300 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400"
           required
         />
         <input
@@ -68,15 +68,15 @@ export default function Register() {
           placeholder="Confirm Password"
           value={confirm}
           onChange={(e) => setConfirm(e.target.value)}
-          className="mb-3 border px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-yellow-500"
+          className="mb-4 border border-gray-300 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400"
           required
         />
-        <button className="bg-gray-900 text-white py-2 rounded hover:bg-yellow-500 mb-2">
+        <button className="bg-gray-900 text-white py-3 rounded-lg hover:bg-green-500 hover:text-black font-semibold transition-all duration-300">
           Register
         </button>
-        <p className="text-center text-sm mt-2">
+        <p className="text-center text-sm mt-4 text-black">
           Already have an account?{" "}
-          <Link to="/login" className="text-blue-500 underline">
+          <Link to="/login" className="text-blue-700 underline hover:text-blue-900">
             Login
           </Link>
         </p>

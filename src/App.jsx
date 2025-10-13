@@ -13,6 +13,7 @@ import ProductCard from "./components/ProductCard";
 import AdminDashboard from "./pages/AdminDashboard";
 import About from "./pages/About";
 import Checkout from "./pages/Checkout";
+import Wishlist from "./pages/wishlist";
 
 function App() {
 const [cartItems, setCartItems] = useState([]);
@@ -64,6 +65,7 @@ const addToCart = (product) => {
         <Route path="/productcard" element={<ProductCard />} />
         <Route path="/Admin" element={<AdminDashboard/>} />
         <Route path="/about" element={<About />} />
+        <Route path="/wishlist" element={<Wishlist />} />
       </Routes>
       <Footer />
     </BrowserRouter>

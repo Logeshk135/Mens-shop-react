@@ -1,17 +1,31 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FaUser, FaHome, FaShoppingCart, FaBoxOpen, FaBars, FaTimes } from "react-icons/fa";
+import { FaUser, FaHome, FaShoppingCart, FaBoxOpen, FaBars, FaTimes,FaHeart } from "react-icons/fa";
 
-const Navbar = ({ cartCount = 0 }) => {
-
+const Navbar = () => {
   const [username, setUsername] = useState(null);
   const [dropdown, setDropdown] = useState(false);
   const [mobileMenu, setMobileMenu] = useState(false);
+  const [cartCount, setCartCount] = useState(0);
   const navigate = useNavigate();
 
   useEffect(() => {
     const storedUser = localStorage.getItem("username");
     if (storedUser) setUsername(storedUser);
+  }, []);
+
+  useEffect(() => {
+    const updateCartCount = () => {
+      const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+      const totalQty = cartItems.reduce((acc, item) => acc + item.quantity, 0);
+      setCartCount(totalQty);
+    };
+
+    updateCartCount();
+
+    window.addEventListener("storage", updateCartCount);
+
+    return () => window.removeEventListener("storage", updateCartCount);
   }, []);
 
   const handleLogout = () => {
@@ -23,10 +37,23 @@ const Navbar = ({ cartCount = 0 }) => {
     setMobileMenu(false);
   };
 
+  const [wishlistCount, setWishlistCount] = useState(0);
+
+  useEffect(() => {
+    const updateWishlistCount = () => {
+      const wishlist = JSON.parse(localStorage.getItem("wishlistItems")) || [];
+      setWishlistCount(wishlist.length);
+    };
+
+    updateWishlistCount();
+    window.addEventListener("storage", updateWishlistCount);
+    return () => window.removeEventListener("storage", updateWishlistCount);
+  }, []);
+
+
   return (
     <nav className="fixed top-0 left-0 w-full z-50 bg-red-900 text-white shadow-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
-     
         <h2 className="text-2xl font-bold">
           <span className="text-red-500">Dravon</span> Men's Shop
         </h2>
@@ -38,15 +65,27 @@ const Navbar = ({ cartCount = 0 }) => {
           <li className="flex items-center space-x-1 hover:text-yellow-400">
             <FaBoxOpen /> <Link to="/products">Products</Link>
           </li>
-         <li className="flex items-center space-x-1 hover:text-yellow-400 relative">
-  <FaShoppingCart />
-  <Link to="/cart">Cart</Link>
-  {cartCount > 0 && (
-    <span className="absolute -top-2 -right-3 bg-yellow-400 text-black text-xs font-bold px-1 rounded-full">
-      {cartCount}
-    </span>
-  )}
-</li>
+          <li className="flex items-center space-x-1 hover:text-yellow-400 relative">
+            <FaShoppingCart />
+            <Link to="/cart">Cart</Link>
+            {cartCount > 0 && (
+              <span className="absolute -top-2 -right-3 bg-yellow-400 text-black text-xs font-bold px-1 rounded-full">
+                {cartCount}
+              </span>
+            )}
+          </li>
+
+          <li className="flex items-center space-x-1 hover:text-yellow-400 relative">
+            <FaHeart />
+            <Link to="/wishlist">Wishlist</Link>
+            {wishlistCount > 0 && (
+              <span className="absolute -top-2 -right-3 bg-pink-400 text-black text-xs font-bold px-1 rounded-full">
+                {wishlistCount}
+              </span>
+            )}
+          </li>
+
+
           {!username ? (
             <>
               <li className="flex items-center space-x-1 hover:text-yellow-400">
@@ -84,12 +123,15 @@ const Navbar = ({ cartCount = 0 }) => {
             </li>
           )}
         </ul>
+
+        {/* Mobile Menu */}
         <div className="md:hidden flex items-center">
           <button onClick={() => setMobileMenu(!mobileMenu)}>
             {mobileMenu ? <FaTimes size={24} /> : <FaBars size={24} />}
           </button>
         </div>
       </div>
+
       {mobileMenu && (
         <ul className="md:hidden bg-red-800 text-white px-4 pb-4 space-y-2">
           <li className="flex items-center space-x-1 hover:text-yellow-400">
@@ -98,8 +140,13 @@ const Navbar = ({ cartCount = 0 }) => {
           <li className="flex items-center space-x-1 hover:text-yellow-400">
             <FaBoxOpen /> <Link to="/products" onClick={() => setMobileMenu(false)}>Products</Link>
           </li>
-          <li className="flex items-center space-x-1 hover:text-yellow-400">
+          <li className="flex items-center space-x-1 hover:text-yellow-400 relative">
             <FaShoppingCart /> <Link to="/cart" onClick={() => setMobileMenu(false)}>Cart</Link>
+            {cartCount > 0 && (
+              <span className="absolute -top-2 -right-3 bg-yellow-400 text-black text-xs font-bold px-1 rounded-full">
+                {cartCount}
+              </span>
+            )}
           </li>
 
           {!username ? (

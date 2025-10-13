@@ -6,10 +6,10 @@ import denim from "../assets/denim.jpg"
 import belt  from "../assets/belt.jpg"
 
 const products = [
-  { id: 1, name: "Casual Shirt", price: 1200, image:  casual },
-  { id: 2, name: "Formal Pant", price: 1500, image: formal },
-  { id: 3, name: "Leather Belt", price: 800, image: belt },
-  { id: 4, name: "Denim Shirt", price: 2000, image: denim },
+  { id: 1, name: "SHIRTS", image:  casual },
+  { id: 2, name: "PANTS", image: formal },
+  { id: 3, name: "BELTS", image: belt },
+  { id: 4, name: "DENIM SHIRTS", image: denim },
 ];
 
 const Home = () => {

@@ -10,10 +10,11 @@ import Register from "./pages/Register";
 import Contact from "./pages/Contact";
 import Profile from "./components/Profile";
 import ProductCard from "./components/ProductCard";
-import AdminDashboard from "./pages/AdminDashboard";
+import AdminDashboard from "./pages/Admin/AdminDashboard";
 import About from "./pages/About";
 import Checkout from "./pages/Checkout";
 import Wishlist from "./pages/wishlist";
+import Myorder from "./components/MyOrders";
 
 function App() {
 const [cartItems, setCartItems] = useState([]);
@@ -66,6 +67,7 @@ const addToCart = (product) => {
         <Route path="/Admin" element={<AdminDashboard/>} />
         <Route path="/about" element={<About />} />
         <Route path="/wishlist" element={<Wishlist />} />
+        <Route path="/my-orders" element={<Myorder />} />
       </Routes>
       <Footer />
     </BrowserRouter>

@@ -11,7 +11,7 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const adminUsername = "logesh";
+    const adminUsername = "Admin";
     const adminPassword = "logesh@123";
 
     if (username === adminUsername && password === adminPassword) {
@@ -87,14 +87,14 @@ export default function Login() {
     <p className="text-center text-red-500 font-semibold mt-3">{message}</p>
   )}
 
-  {username !== "admin" && (
-    <p className="text-center text-sm mt-4 text-black">
-      Don't have an account?{" "}
-      <Link to="/register" className="text-blue-700 underline hover:text-blue-900">
-       Signup
-      </Link>
-    </p>
-  )}
+{username !== "Admin" && (
+  <p className="text-center text-sm mt-4 text-black">
+    Don't have an account?{" "}
+    <Link to="/register" className="text-blue-700 underline hover:text-blue-900">
+      Signup
+    </Link>
+  </p>
+)}
 </form>
     </div>
   );

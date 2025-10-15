@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FaUser, FaHome, FaShoppingCart, FaBoxOpen, FaBars, FaTimes,FaHeart } from "react-icons/fa";
+import { FaUser, FaHome, FaShoppingCart, FaBoxOpen, FaBars, FaTimes, FaHeart, FaClipboardList } from "react-icons/fa";
 
 const Navbar = () => {
   const [username, setUsername] = useState(null);
@@ -84,6 +84,9 @@ const Navbar = () => {
               </span>
             )}
           </li>
+          <li className="flex items-center space-x-1 hover:text-yellow-400">
+            <FaClipboardList /> <Link to="/my-orders">My Orders</Link>
+          </li>
 
 
           {!username ? (
@@ -148,7 +151,7 @@ const Navbar = () => {
               </span>
             )}
           </li>
-           <li className="flex items-center space-x-1 hover:text-yellow-400 relative">
+          <li className="flex items-center space-x-1 hover:text-yellow-400 relative">
             <FaHeart />
             <Link to="/wishlist">Wishlist</Link>
             {wishlistCount > 0 && (
@@ -157,6 +160,12 @@ const Navbar = () => {
               </span>
             )}
           </li>
+
+          <li className="flex items-center space-x-1 hover:text-yellow-400">
+            <FaClipboardList />
+            <Link to="/my-orders" onClick={() => setMobileMenu(false)}>My Orders</Link>
+          </li>
+
 
           {!username ? (
             <>

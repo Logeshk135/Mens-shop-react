@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect} from "react";
+import { useNavigate } from "react-router-dom";
 import shirt1 from "../assets/casual1.jpg";
 import shirt2 from "../assets/checkedflannel.jpg";
 import shirt3 from "../assets/LinenSummerShirt.jpg";
@@ -79,6 +80,7 @@ const allProducts = [
 
 export default function CasualShirtProducts() {
   const [category, setCategory] = useState("All");
+  const navigate = useNavigate();
   const [cartItems, setCartItems] = useState(
     JSON.parse(localStorage.getItem("cartItems")) || []
   );
@@ -98,30 +100,65 @@ export default function CasualShirtProducts() {
     (p) => category === "All" || p.category.toLowerCase() === category.toLowerCase()
   );
 
-   const handleAddCart = (product) => {
-    const exist = cartItems.find((item) => item.id === product.id);
-    let updatedCart;
-    if (exist) {
-      updatedCart = cartItems.map((item) =>
-        item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
-      );
-    } else {
-      updatedCart = [...cartItems, { ...product, quantity: 1 }];
-    }
-    setCartItems(updatedCart);
-  };
+  
+const username = localStorage.getItem("username");
 
-  // 🩵 ADD TO WISHLIST FUNCTION
+const handleAddCart = (product) => {
+  // 1️⃣ Check login
+  if (!username) {
+    alert("Please login first to continue!");
+    navigate("/login");
+    return;
+  }
+
+  // 2️⃣ Get current cart items
+  const currentCart = cartItems || [];
+  const exist = currentCart.find((item) => item.id === product.id);
+  let updatedCart;
+
+  if (exist) {
+    // 3️⃣ Increment quantity if already in cart
+    updatedCart = currentCart.map((item) =>
+      item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
+    );
+  } else {
+    // 4️⃣ Add new product to cart
+    updatedCart = [...currentCart, { ...product, quantity: 1 }];
+  }
+
+  // 5️⃣ Update state & localStorage
+  setCartItems(updatedCart);
+  localStorage.setItem("cartItems", JSON.stringify(updatedCart));
+
+  // 6️⃣ Trigger navbar update
+  window.dispatchEvent(new Event("cartOrWishlistUpdated"));
+
+  // 7️⃣ Optional alert / redirect
+  alert(`${product.name} added to cart!`);
+  navigate("/cart");
+};
+
+
   const handleAddWishlist = (product) => {
+    const username = localStorage.getItem("username");
+    if (!username) {
+      alert("Please login first to continue!");
+      navigate("/login");
+      return;
+    }
+
     const exist = wishlistItems.find((item) => item.id === product.id);
     if (exist) {
       alert("Already in wishlist!");
     } else {
       const updatedWishlist = [...wishlistItems, product];
       setWishlistItems(updatedWishlist);
-      alert("Added to wishlist ❤️");
+      localStorage.setItem("wishlistItems", JSON.stringify(updatedWishlist));
+      window.dispatchEvent(new Event("cartOrWishlistUpdated"));
+      alert(`${product.name} added to wishlist!`);
     }
   };
+
 
   const cartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
   const wishlistCount = wishlistItems.length;
@@ -136,12 +173,12 @@ export default function CasualShirtProducts() {
           <div className="flex gap-4">
             <Link to="/wishlist">
               <span className="px-3 py-1 bg-pink-500 text-white rounded">
-                ❤️ Wishlist: {wishlistCount}
+                 Wishlist: {wishlistCount}
               </span>
             </Link>
             <Link to="/cart">
               <span className="px-3 py-1 bg-yellow-500 text-black rounded">
-                🛒 Cart: {cartCount}
+                 Cart: {cartCount}
               </span>
             </Link>
           </div>
@@ -187,7 +224,7 @@ export default function CasualShirtProducts() {
                 onClick={() => handleAddWishlist(p)}
                 className="mt-2 bg-pink-500 text-white px-4 py-2 rounded hover:bg-pink-400 ml-2"
               >
-                Wishlist
+               ❤️ Wishlist
               </button>
             </div>
           ))}

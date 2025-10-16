@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Wishlist() {
   const [wishlistItems, setWishlistItems] = useState(
@@ -7,6 +8,8 @@ export default function Wishlist() {
   const [cartItems, setCartItems] = useState(
     JSON.parse(localStorage.getItem("cartItems")) || []
   );
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     localStorage.setItem("wishlistItems", JSON.stringify(wishlistItems));
@@ -21,22 +24,32 @@ export default function Wishlist() {
     let updatedCart;
     if (exist) {
       updatedCart = cartItems.map((item) =>
-        item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
+        item.id === product.id
+          ? { ...item, quantity: item.quantity + 1 }
+          : item
       );
     } else {
       updatedCart = [...cartItems, { ...product, quantity: 1 }];
     }
+    const updatedWishlist = wishlistItems.filter((i) => i.id !== product.id);
     setCartItems(updatedCart);
-    alert(`${product.name} added to cart`);
+    setWishlistItems(updatedWishlist);
+
+    // 🔥 Trigger navbar update instantly
+    window.dispatchEvent(new Event("cartOrWishlistUpdated"));
+
+    alert(`${product.name} added to cart 🛒`);
+    navigate("/cart");
   };
 
   const handleRemoveWishlist = (id) => {
     const updatedWishlist = wishlistItems.filter((item) => item.id !== id);
     setWishlistItems(updatedWishlist);
-    alert("Removed from wishlist");
+    window.dispatchEvent(new Event("cartOrWishlistUpdated"));
+    alert("Removed from wishlist ❌");
   };
 
-  if (wishlistItems.length === 0) {
+  if (wishlistItems.length === 0)
     return (
       <div className="py-20 text-center">
         <h2 className="text-2xl font-bold text-gray-700">
@@ -44,7 +57,6 @@ export default function Wishlist() {
         </h2>
       </div>
     );
-  }
 
   return (
     <div className="py-20 bg-gray-50 min-h-screen">

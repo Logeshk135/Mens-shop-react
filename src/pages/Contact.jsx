@@ -32,14 +32,32 @@ export default function Contact() {
     >
       <form
         onSubmit={handleSubmit}
-        className="bg-transparent bg-opacity-80 shadow-lg rounded-lg p-8 w-full max-w-md"
+        className="backdrop-blur-md bg-white/20 mt-20 rounded-2xl shadow-2xl w-96 flex flex-col border border-white/30"
       >
-        <h2 className="text-2xl font-bold mb-6 text-center">Contact Us</h2>
+        <h2 className="text-3xl font-bold mb-6 text-center text-black drop-shadow-lg">Contact Us</h2>
 
-        <input type="text" placeholder="Your Name" value={name} onChange={(e) => setName(e.target.value)} required className="w-full border px-3 py-2 mb-4 rounded focus:outline-none focus:ring-2 focus:ring-yellow-500" />
-        <input type="email" placeholder="Your Email" value={email} onChange={(e) => setEmail(e.target.value)} required className="w-full border px-3 py-2 mb-4 rounded focus:outline-none focus:ring-2 focus:ring-yellow-500" />
-        <textarea placeholder="Your Message" value={message} onChange={(e) => setMessage(e.target.value)} required rows="4" className="w-full border px-3 py-2 mb-4 rounded focus:outline-none focus:ring-2 focus:ring-yellow-500"></textarea>
-        <button type="submit" className="w-full bg-gray-900 text-white py-2 rounded hover:bg-yellow-500">Send Message</button>
+        <input type="text"
+         placeholder="Your Name"
+          value={name} 
+          onChange={(e) => setName(e.target.value)} required 
+          className="mb-4 border border-gray-300 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400" 
+          />
+
+        <input type="email" 
+        placeholder="Your Email" 
+        value={email} 
+        onChange={(e) => setEmail(e.target.value)} required 
+        className="mb-4 border border-gray-300 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400" 
+        />
+
+        <textarea placeholder="Your Message" 
+        value={message} 
+        onChange={(e) => setMessage(e.target.value)} required 
+        rows="4" className="mb-4 border border-gray-300 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400">
+        </textarea>
+
+        <button type="submit" 
+        className="w-full bg-gray-900 text-white py-2 rounded hover:bg-yellow-500">Send Message</button>
         {status && <p className="text-center mt-2 text-green-600">{status}</p>}
       </form>
     </div>

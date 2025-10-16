@@ -22,99 +22,115 @@ const Profile = () => {
     }
   }, [navigate]);
 
-  const handleUpdate = (e) => {
-    e.preventDefault();
+  const handleUpdate = async (e) => {
+  e.preventDefault();
 
-    if (newPassword && newPassword !== confirmPassword) {
-      setMessage("Passwords do not match!");
-      return;
+  if (newPassword && newPassword !== confirmPassword) {
+    setMessage("Passwords do not match!");
+    return;
+  }
+
+  try {
+    const token = localStorage.getItem("token");
+    const res = await fetch("http://localhost:5000/api/auth/update-profile", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ newUsername, newPassword }),
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+      setMessage("Profile updated successfully!");
+      localStorage.setItem("username", data.username); // only store username
+      setUsername(data.username);
+      setNewPassword("");
+      setConfirmPassword("");
+    } else {
+      setMessage(data.message || "Update failed");
     }
+  } catch (err) {
+    console.error(err);
+    setMessage("Server error, try again later.");
+  }
+};
 
-    localStorage.setItem("username", newUsername);
-    if (newPassword) {
-      localStorage.setItem("password", newPassword);
-    }
+const handleLogout = () => {
+  localStorage.removeItem("username");
+  localStorage.removeItem("password");
+  navigate("/login");
+};
 
-    setUsername(newUsername);
-    setPassword(newPassword || password);
-    setMessage("Profile updated successfully!");
-    setConfirmPassword("");
-    setNewPassword("");
-  };
+return (
+  <div className="flex justify-center items-center min-h-screen bg-gray-100 px-6">
+    <div className="bg-white shadow-xl rounded-lg p-8 w-full max-w-md">
+      <h2 className="text-3xl font-bold mb-6 text-center">User Profile</h2>
+      {message && (
+        <p className="text-center text-green-500 font-semibold mb-4">{message}</p>
+      )}
 
-  const handleLogout = () => {
-    localStorage.removeItem("username");
-    localStorage.removeItem("password");
-    navigate("/login");
-  };
-
-  return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100 px-6">
-      <div className="bg-white shadow-xl rounded-lg p-8 w-full max-w-md">
-        <h2 className="text-3xl font-bold mb-6 text-center">User Profile</h2>
-        {message && (
-          <p className="text-center text-green-500 font-semibold mb-4">{message}</p>
-        )}
-
-        <form onSubmit={handleUpdate} className="space-y-4">
-          <div>
-            <label className="block font-semibold mb-1">Username</label>
-            <input
-              type="text"
-              value={newUsername}
-              onChange={(e) => setNewUsername(e.target.value)}
-              className="w-full border px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-yellow-500"
-              required
-            />
-          </div>
-
-          <div>
-            <label className="block font-semibold mb-1">New Password</label>
-            <input
-              type="password"
-              placeholder="Leave blank to keep current password"
-              value={newPassword}
-              onChange={(e) => setNewPassword(e.target.value)}
-              className="w-full border px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-yellow-500"
-            />
-          </div>
-
-          <div>
-            <label className="block font-semibold mb-1">Confirm New Password</label>
-            <input
-              type="password"
-              placeholder="Confirm new password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              className="w-full border px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-yellow-500"
-            />
-          </div>
-
-          <button
-            type="submit"
-            className="w-full bg-gray-900 text-white py-2 rounded hover:bg-yellow-500 transition"
-          >
-            Update Profile
-          </button>
-        </form>
-
-        <div className="mt-6 flex justify-between">
-          <button
-            onClick={() => navigate("/")}
-            className="bg-gray-700 text-white px-4 py-2 rounded hover:bg-gray-600"
-          >
-            Back to Home
-          </button>
-          <button
-            onClick={handleLogout}
-            className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-500"
-          >
-            Logout
-          </button>
+      <form onSubmit={handleUpdate} className="space-y-4">
+        <div>
+          <label className="block font-semibold mb-1">Username</label>
+          <input
+            type="text"
+            value={newUsername}
+            onChange={(e) => setNewUsername(e.target.value)}
+            className="w-full border px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-yellow-500"
+            required
+          />
         </div>
+
+        <div>
+          <label className="block font-semibold mb-1">New Password</label>
+          <input
+            type="password"
+            placeholder="Leave blank to keep current password"
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
+            className="w-full border px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-yellow-500"
+          />
+        </div>
+
+        <div>
+          <label className="block font-semibold mb-1">Confirm New Password</label>
+          <input
+            type="password"
+            placeholder="Confirm new password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            className="w-full border px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-yellow-500"
+          />
+        </div>
+
+        <button
+          type="submit"
+          className="w-full bg-gray-900 text-white py-2 rounded hover:bg-yellow-500 transition"
+        >
+          Update Profile
+        </button>
+      </form>
+
+      <div className="mt-6 flex justify-between">
+        <button
+          onClick={() => navigate("/")}
+          className="bg-gray-700 text-white px-4 py-2 rounded hover:bg-gray-600"
+        >
+          Back to Home
+        </button>
+        <button
+          onClick={handleLogout}
+          className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-500"
+        >
+          Logout
+        </button>
       </div>
     </div>
-  );
+  </div>
+);
 };
 
 export default Profile;

@@ -4,17 +4,27 @@ export default function ContactDetails() {
   const [contacts, setContacts] = useState([]);
 
   const fetchContacts = async () => {
-    try {
-      const token = localStorage.getItem("token");
-      const res = await fetch("http://localhost:5000/api/contact", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      const data = await res.json();
-      setContacts(Array.isArray(data) ? data : []);
-    } catch (err) {
-      console.error(err);
+  try {
+    const token = localStorage.getItem("token"); // get admin token
+    const res = await fetch("http://localhost:5000/api/contact", {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    // ✅ Check if the request failed
+    if (!res.ok) {
+      const errorData = await res.json();
+      console.error("Error fetching contacts:", errorData.message);
+      return; // stop here if not ok
     }
-  };
+
+    // ✅ Here is where you set the contacts array
+    const data = await res.json();
+    setContacts(Array.isArray(data) ? data : []);
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 
   const deleteMessage = async (id) => {
     const token = localStorage.getItem("token");

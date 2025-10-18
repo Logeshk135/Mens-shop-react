@@ -37,7 +37,7 @@ export default function CustomerOrders() {
     // Example: mark as delivered
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch(`https://mens-shop-backend-2.onrender.com/`, {
+      const res = await fetch(`http://localhost:5000/api/orders/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify({ status: "Delivered" }),

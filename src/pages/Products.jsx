@@ -88,16 +88,13 @@ export default function CasualShirtProducts() {
   const username = localStorage.getItem("username");
   const role = localStorage.getItem("role"); // "admin" or "user"
 
-  // ✅ Access control
+  // ✅ Access control for product viewing
   useEffect(() => {
     if (!username) {
       alert("Please login first to continue!");
       navigate("/login");
-    } else if (role === "admin") {
-      alert("Only users can view products!");
-      navigate("/admin");
     }
-  }, [username, role, navigate]);
+  }, [username, navigate]);
 
   useEffect(() => {
     localStorage.setItem("cartItems", JSON.stringify(cartItems));
@@ -111,10 +108,16 @@ export default function CasualShirtProducts() {
     (p) => category === "All" || p.category.toLowerCase() === category.toLowerCase()
   );
 
+  // ✅ Restrict cart addition for admin
   const handleAddCart = (product) => {
     if (!username) {
-      alert("Please login first to continue!");
+      alert("Please login first!");
       navigate("/login");
+      return;
+    }
+
+    if (role === "admin") {
+      alert("Admins cannot add items to cart. Please login as a user!");
       return;
     }
 
@@ -134,13 +137,18 @@ export default function CasualShirtProducts() {
     localStorage.setItem("cartItems", JSON.stringify(updatedCart));
     window.dispatchEvent(new Event("cartOrWishlistUpdated"));
     alert(`${product.name} added to cart!`);
-    navigate("/cart");
   };
 
+  // ✅ Restrict wishlist addition for admin
   const handleAddWishlist = (product) => {
     if (!username) {
-      alert("Please login first to continue!");
+      alert("Please login first!");
       navigate("/login");
+      return;
+    }
+
+    if (role === "admin") {
+      alert("Admins cannot add items to wishlist. Please login as a user!");
       return;
     }
 

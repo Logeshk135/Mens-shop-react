@@ -35,7 +35,6 @@ export default function Wishlist() {
     setCartItems(updatedCart);
     setWishlistItems(updatedWishlist);
 
-    // 🔥 Trigger navbar update instantly
     window.dispatchEvent(new Event("cartOrWishlistUpdated"));
 
     alert(`${product.name} added to cart 🛒`);
@@ -46,7 +45,8 @@ export default function Wishlist() {
     const updatedWishlist = wishlistItems.filter((item) => item.id !== id);
     setWishlistItems(updatedWishlist);
     window.dispatchEvent(new Event("cartOrWishlistUpdated"));
-    alert("Removed from wishlist ❌");
+    alert("Removed from wishlist");
+    navigate("/products")
   };
 
   if (wishlistItems.length === 0)

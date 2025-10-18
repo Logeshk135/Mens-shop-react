@@ -137,6 +137,7 @@ export default function CasualShirtProducts() {
     localStorage.setItem("cartItems", JSON.stringify(updatedCart));
     window.dispatchEvent(new Event("cartOrWishlistUpdated"));
     alert(`${product.name} added to cart!`);
+    navigate("/cart");
   };
 
   // ✅ Restrict wishlist addition for admin
@@ -161,6 +162,7 @@ export default function CasualShirtProducts() {
       localStorage.setItem("wishlistItems", JSON.stringify(updatedWishlist));
       window.dispatchEvent(new Event("cartOrWishlistUpdated"));
       alert(`${product.name} added to wishlist!`);
+      navigate("/wishlist");
     }
   };
 

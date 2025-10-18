@@ -8,10 +8,9 @@ export default function Cart() {
   const [wishlistItems, setWishlistItems] = useState(
     JSON.parse(localStorage.getItem("wishlistItems")) || []
   );
-  const [activeMenu, setActiveMenu] = useState(null); // track which item's menu is open
+  const [activeMenu, setActiveMenu] = useState(null); 
   const navigate = useNavigate();
 
-  // Save cart & wishlist in localStorage
   useEffect(() => {
     localStorage.setItem("cartItems", JSON.stringify(cartItems));
   }, [cartItems]);
@@ -20,7 +19,7 @@ export default function Cart() {
     localStorage.setItem("wishlistItems", JSON.stringify(wishlistItems));
   }, [wishlistItems]);
 
-  // Update quantity
+
   const updateQuantity = (id, qty) => {
     const updated = cartItems.map((item) =>
       item.id === id ? { ...item, quantity: qty } : item
@@ -29,16 +28,15 @@ export default function Cart() {
     window.dispatchEvent(new Event("cartOrWishlistUpdated"));
   };
 
-  // Remove item from cart
   const handleRemove = (id) => {
     const updated = cartItems.filter((item) => item.id !== id);
     setCartItems(updated);
     window.dispatchEvent(new Event("cartOrWishlistUpdated"));
     setActiveMenu(null);
-    alert("Removed from cart ❌");
+    alert("Removed from cart");
+    navigate('/products')
   };
 
-  // Move to wishlist
   const handleMoveToWishlist = (item) => {
     const exist = wishlistItems.find((w) => w.id === item.id);
     if (!exist) {
@@ -48,7 +46,8 @@ export default function Cart() {
     setCartItems(updatedCart);
     window.dispatchEvent(new Event("cartOrWishlistUpdated"));
     setActiveMenu(null);
-    alert(`${item.name} moved to wishlist ❤️`);
+    alert(`${item.name} moved to wishlist`);
+    navigate('/wishlist')
   };
 
   const total = cartItems.reduce(
@@ -91,7 +90,6 @@ export default function Cart() {
             className="w-16 border px-2 py-1 rounded text-center"
           />
 
-          {/* Options button */}
           <div className="relative ml-3">
              <button
     onClick={() =>
@@ -102,7 +100,7 @@ export default function Cart() {
    Remove
   </button>
 
-  {/* Notification-style menu centered below button */}
+
   {activeMenu === item.id && (
     <div className="absolute left-1/2 transform -translate-x-1/2 mt-2 w-44 bg-white shadow-lg rounded z-10">
       <button

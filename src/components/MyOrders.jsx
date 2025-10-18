@@ -15,7 +15,7 @@ export default function MyOrders() {
       );
       setOrders(updatedOrders);
       localStorage.setItem("orders", JSON.stringify(updatedOrders));
-      alert("❌ Order cancelled successfully!");
+      alert("Order cancelled successfully!");
     }
   };
 

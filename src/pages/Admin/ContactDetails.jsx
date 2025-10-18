@@ -6,7 +6,7 @@ export default function ContactDetails() {
   const fetchContacts = async () => {
   try {
     const token = localStorage.getItem("token"); // get admin token
-    const res = await fetch("http://localhost:5000/api/contact", {
+    const res = await fetch("https://mens-shop-backend-2.onrender.com/", {
       headers: { Authorization: `Bearer ${token}` },
     });
 
@@ -28,7 +28,7 @@ export default function ContactDetails() {
 
   const deleteMessage = async (id) => {
     const token = localStorage.getItem("token");
-    await fetch(`http://localhost:5000/api/contact/${id}`, {
+    await fetch(`https://mens-shop-backend-2.onrender.com/`, {
       method: "DELETE",
       headers: { Authorization: `Bearer ${token}` },
     });

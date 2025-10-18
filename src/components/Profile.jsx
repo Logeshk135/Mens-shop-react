@@ -32,7 +32,7 @@ const Profile = () => {
 
   try {
     const token = localStorage.getItem("token");
-    const res = await fetch("http://localhost:5000/api/auth/update-profile", {
+    const res = await fetch("https://mens-shop-backend-2.onrender.com/", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

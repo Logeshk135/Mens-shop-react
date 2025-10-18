@@ -6,7 +6,7 @@ export default function CustomerOrders() {
   const fetchOrders = async () => {
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch("http://localhost:5000/api/orders", {
+      const res = await fetch("https://mens-shop-backend-2.onrender.com/", {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -23,7 +23,7 @@ export default function CustomerOrders() {
 
     try {
       const token = localStorage.getItem("token");
-      await fetch(`http://localhost:5000/api/orders/${id}`, {
+      await fetch(`https://mens-shop-backend-2.onrender.com/`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -37,7 +37,7 @@ export default function CustomerOrders() {
     // Example: mark as delivered
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch(`http://localhost:5000/api/orders/${id}`, {
+      const res = await fetch(`https://mens-shop-backend-2.onrender.com/`, {
         method: "PUT",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify({ status: "Delivered" }),

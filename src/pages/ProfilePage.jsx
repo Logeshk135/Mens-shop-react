@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import loginbg from "../assets/loginbg.png";
 
 const Profile = () => {
   const [user, setUser] = useState(null);
@@ -10,15 +11,15 @@ const Profile = () => {
     gender: "",
   });
 
-  // Fetch user profile when component loads
+  // Fetch user profile
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-       const res = await fetch("http://localhost:5000/api/user/profile", {
-  headers: {
-    Authorization: `Bearer ${localStorage.getItem("token")}`,
-  },
-});
+        const res = await fetch("http://localhost:5000/api/user/profile", {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
 
         const data = await res.json();
         setUser(data);
@@ -36,7 +37,7 @@ const Profile = () => {
     fetchProfile();
   }, []);
 
-  // Handle input changes
+  // Handle input change
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -58,37 +59,44 @@ const Profile = () => {
       if (res.ok) {
         setUser(updated);
         setEditMode(false);
-        alert("✅ Profile updated successfully!");
+        alert("Profile updated successfully!");
       } else {
         alert(updated.message || "Profile update failed!");
       }
     } catch (err) {
-      console.error("❌ Update error:", err);
+      console.error("Update error:", err);
     }
   };
 
-  if (!user) return null; // no loading screen
+  if (!user) return null;
 
   return (
-    <div className="min-h-screen bg-gray-50 flex justify-center items-center">
-      <div className="bg-white shadow-lg rounded-2xl p-6 w-full max-w-md">
+    <div
+          className="flex justify-center items-center h-screen w-auto bg-cover bg-center"
+          style={{ backgroundImage: `url(${loginbg})` }}
+        >
+      <div
+        className="backdrop-blur-md  shadow-2xl rounded-2xl p-8 w-full max-w-md border border-white/20"
+      >
         {/* Header */}
         <div className="flex flex-col items-center mb-6">
           <img
             src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
             alt="avatar"
-            className="w-24 h-24 rounded-full border-2 border-gray-300"
+            className="w-24 h-24 rounded-full border-4 border-black/70 shadow-md"
           />
-          <h2 className="text-2xl font-semibold mt-3 text-gray-800">
+          <h2 className="text-2xl font-semibold mt-3 text-black drop-shadow">
             Hi, {user.name?.split(" ")[0]} 👋
           </h2>
-          <p className="text-sm text-gray-500">Welcome back to Men's Style Hub</p>
+          <p className="text-sm text-black-100 opacity-90">
+            Welcome back to Men's Style Hub
+          </p>
         </div>
 
         {/* Info Section */}
-        <div className="space-y-3">
+        <div className="space-y-3 text-white">
           <div>
-            <label className="block text-gray-500 text-sm">Full Name</label>
+            <label className="block text-sm text-black/90">Full Name</label>
             <input
               type="text"
               name="name"
@@ -96,24 +104,27 @@ const Profile = () => {
               value={formData.name}
               onChange={handleChange}
               className={`w-full border ${
-                editMode ? "border-gray-400" : "border-transparent"
-              } rounded-lg p-2 bg-gray-100 focus:outline-none`}
+                editMode ? "border-white/40 bg-white/40" : "border-transparent bg-white/20"
+              } rounded-lg p-2 text-black focus:outline-none`}
             />
           </div>
 
           <div>
-            <label className="block text-gray-500 text-sm">Email</label>
+            <label className="block text-sm text-black/90">Email</label>
             <input
               type="email"
               name="email"
-              disabled
+              disabled={!editMode}
               value={formData.email}
-              className="w-full border border-transparent rounded-lg p-2 bg-gray-100"
+              onChange={handleChange}
+              className={`w-full border ${
+                editMode ? "border-white/40 bg-white/40" : "border-transparent bg-white/20"
+              } rounded-lg p-2 text-black focus:outline-none`}
             />
           </div>
 
           <div>
-            <label className="block text-gray-500 text-sm">Phone</label>
+            <label className="block text-sm text-black/90">Phone</label>
             <input
               type="text"
               name="phone"
@@ -121,21 +132,21 @@ const Profile = () => {
               value={formData.phone}
               onChange={handleChange}
               className={`w-full border ${
-                editMode ? "border-gray-400" : "border-transparent"
-              } rounded-lg p-2 bg-gray-100 focus:outline-none`}
+                editMode ? "border-white/40 bg-white/40" : "border-transparent bg-white/20"
+              } rounded-lg p-2 text-black focus:outline-none`}
             />
           </div>
 
           <div>
-            <label className="block text-gray-500 text-sm">Gender</label>
+            <label className="block text-sm text-black/90">Gender</label>
             <select
               name="gender"
               disabled={!editMode}
               value={formData.gender}
               onChange={handleChange}
               className={`w-full border ${
-                editMode ? "border-gray-400" : "border-transparent"
-              } rounded-lg p-2 bg-gray-100 focus:outline-none`}
+                editMode ? "border-white/40 bg-white/40" : "border-transparent bg-white/20"
+              } rounded-lg p-2 text-black focus:outline-none`}
             >
               <option value="">Select Gender</option>
               <option value="Male">Male</option>
@@ -151,13 +162,13 @@ const Profile = () => {
             <>
               <button
                 onClick={handleSave}
-                className="bg-green-600 text-white px-5 py-2 rounded-lg mr-2 hover:bg-green-700 transition"
+                className="bg-green-600/90 text-white px-5 py-2 rounded-lg mr-2 hover:bg-green-700 transition"
               >
                 Save
               </button>
               <button
                 onClick={() => setEditMode(false)}
-                className="bg-gray-300 px-5 py-2 rounded-lg hover:bg-gray-400 transition"
+                className="bg-gray-400/70 text-white px-5 py-2 rounded-lg hover:bg-gray-500 transition"
               >
                 Cancel
               </button>
@@ -165,7 +176,7 @@ const Profile = () => {
           ) : (
             <button
               onClick={() => setEditMode(true)}
-              className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition"
+              className="bg-blue-600/90 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition"
             >
               Edit Profile
             </button>

@@ -8,13 +8,14 @@ import Cart from "./pages/Cart";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Contact from "./pages/Contact";
-import Profile from "./components/Profile";
 import ProductCard from "./components/ProductCard";
 import AdminDashboard from "./pages/Admin/AdminDashboard";
 import About from "./pages/About";
 import Checkout from "./pages/Checkout";
 import Wishlist from "./pages/wishlist";
 import Myorder from "./components/MyOrders";
+import ForgotPassword from "./pages/ForgotPassword";
+import Profile from "./pages/ProfilePage";
 
 function App() {
 const [cartItems, setCartItems] = useState([]);
@@ -58,16 +59,18 @@ const addToCart = (product) => {
             />
           }
         />
+          {/* Protected profile route */}
+        <Route path="/profile" element={<Profile />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/contact" element={<Contact />} />
-        <Route path="/profile" element={<Profile />} />
         <Route path="/productcard" element={<ProductCard />} />
         <Route path="/Admin" element={<AdminDashboard/>} />
         <Route path="/about" element={<About />} />
         <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/my-orders" element={<Myorder />} />
+        <Route path="/forgot" element={<ForgotPassword />} />
       </Routes>
       <Footer />
     </BrowserRouter>
